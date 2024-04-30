@@ -1,54 +1,60 @@
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
 class ResultsBoard {
-    TreeSet<Event> events = new TreeSet<>();
+    TreeSet<Student> students = new TreeSet<>();
 
 
-    public ResultsBoard(){
+    public ResultsBoard() {
 
     }
-    void addStudent(String name, Float score) {
-        Event event = new Event();
-        event.name = name;
-        event.number = score;
-        events.add(event);
-    }
-    List<String> top3 (String name) {
-    Event o = new Event();
-        o.name = name;
 
-        NavigableSet<Event> taislSet = events.tailSet(o, true);
+    Student addStudent(String name, Float score) {
+        Student student = new Student(name, score);
+        students.add(student);
+        return student;
+    }
+
+    List<String> top3(Student student) {
+
+        NavigableSet<Student> taislSet = students.tailSet(student, true);
         List<String> result = new ArrayList<>(3);
         for (int i = 0; i < 3; i++) {
-        if(!taislSet.isEmpty()){
-            result.add(String.valueOf(taislSet.pollFirst()));
-        }
+            if (!taislSet.isEmpty()) {
+                result.add(String.valueOf(taislSet.pollFirst()));
+            }
         }
         return result;
     }
 
     public static void main(String[] args) {
         ResultsBoard resultsBoard = new ResultsBoard();
-        resultsBoard.addStudent("Вася", 11.1f);
-        resultsBoard.addStudent("Кирилл", 9.1f);
-        resultsBoard.addStudent("Андрей", 25.12f);
-        resultsBoard.addStudent("Кристина", 98.78f);
-        resultsBoard.addStudent("Саша", 43.11f);
-        resultsBoard.addStudent("Женя", 78.47f);
-        Event event = new Event();
-        System.out.println(resultsBoard.top3("Вася"));
+        Student student = resultsBoard.addStudent("????", 11.1f);
+
+        resultsBoard.addStudent("??????", 9.1f);
+        resultsBoard.addStudent("??????", 25.12f);
+        resultsBoard.addStudent("????????", 98.78f);
+        resultsBoard.addStudent("????", 43.11f);
+        resultsBoard.addStudent("????", 78.47f);
+        System.out.println(resultsBoard.top3(student));
     }
 }
-class Event implements Comparable<Event>{
-String name;
-Float number;
+
+class Student implements Comparable<Student> {
+    String name;
+    Float number;
+
+    public Student(String name, Float number) {
+        this.name = name;
+        this.number = number;
+    }
 
     @Override
-    public int compareTo(Event o) {
-        if(name.equals(o.name)){
+    public int compareTo(Student o) {
+        if (name.equals(o.name)) {
             return Float.compare(number, o.number);
         } else {
             return CharSequence.compare(name, o.name);
